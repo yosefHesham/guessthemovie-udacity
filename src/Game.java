@@ -8,34 +8,30 @@ public class Game {
     String wrongLetters;
     String rightLetters;
     String title;
+    char[] hiddenT;
     boolean wonGame;
     Game(String path) {
         this.path = path;
         movieTitle = new MovieList(path);
         title = movieTitle.getMovieTitle();
-        pointsLost = 0;
+        hiddenT = title.toCharArray();
         wrongLetters = " ";
         rightLetters = " ";
     }
 
 
-    public String getMovieTitle() {
-        return title;
-    }
 
     public char[] getHiddenMovieTitle() {
-        char[] hiddenTitle = getMovieTitle().toCharArray();
-        String hiddenT = getMovieTitle();
+
         if(rightLetters.equals(" ")) {
-            for(int i = 0; i < hiddenTitle.length; i ++ ){
-                hiddenTitle[i] = '_';
+            for(int i = 0; i < title.toCharArray().length; i ++ ){
+                hiddenT[i] = '_';
             }
-            return hiddenTitle;
+            return hiddenT;
         } else {
-            int index = hiddenT.indexOf(rightLetters);
-            System.out.println(index);
-            hiddenTitle[index] = rightLetters.charAt(0);
-            return  hiddenTitle;
+            int index = title.indexOf(rightLetters);
+            hiddenT[index] = rightLetters.charAt(0);
+            return  hiddenT;
         }
     }
 
@@ -51,47 +47,45 @@ public class Game {
         if(pointsLost >= 10) {
             return  true;
         }
-        if(Arrays.equals(getHiddenMovieTitle(), getMovieTitle().toCharArray())) {
+        if(Arrays.equals(getHiddenMovieTitle(), title.toCharArray())) {
                 wonGame  = true;
                 return true;
         }
         return false;
     }
 
-    public String inputLetter() {
+
+
+
+    public void guessLetter() {
         Scanner scanner = new Scanner(System.in);
+        String guess = scanner.nextLine();
+
+        System.out.println(" +++ "  + title.indexOf(guess));
+        if(title.indexOf(guess) >= 0){
+                rightLetters = guess;
+        }
+
+        else  {
+            pointsLost ++;
+            wrongLetters += " " + guess;
+
+        }
+
+
+
+    }
+
+    public void talktoUser() {
+
         System.out.printf("You Are Guessing: ");
-        System.out.println();
         char[] hiddenTitle = getHiddenMovieTitle();
         for(int i  = 0; i < hiddenTitle.length; i ++) {
             System.out.printf("%c ", hiddenTitle[i]);
         }
-        System.out.println("You have guessed (" + pointsLost + ") wrong letters" + wrongLetters );
+        System.out.println();
+        System.out.println("You have guessed (" + pointsLost + ") wrong letters: " + wrongLetters );
         System.out.println("Guess a letter: ");
-        String guessInput = scanner.nextLine();
-        return  guessInput;
     }
-
-    public void guessLetter() {
-
-        char guess = inputLetter().charAt(0);
-        boolean isEqual = false;
-        for(int i = 0; i <getMovieTitle().toCharArray().length; i ++) {
-            if(guess == getMovieTitle().toCharArray()[i]) {
-                getHiddenMovieTitle()[i] = guess;
-                isEqual = true;
-            }
-        }
-        if(isEqual == true) {
-            rightLetters = inputLetter();
-        }
-        else if(isEqual == false) {
-            pointsLost ++;
-            wrongLetters += " " + inputLetter();
-
-        }
-
-    }
-
 
 }
