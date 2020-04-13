@@ -7,7 +7,7 @@ public class Main {
         System.out.println("### Game Starts ### ");
 
         Game game = new Game(path);
-
+        System.out.println(game.title);
         while (!game.gameEnded()) {
             game.talktoUser();
             game.guessLetter();

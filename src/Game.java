@@ -29,9 +29,12 @@ public class Game {
             }
             return hiddenT;
         } else {
-            int index = title.indexOf(rightLetters);
-            hiddenT[index] = rightLetters.charAt(0);
-            return  hiddenT;
+            for(int i = 0; i < title.toCharArray().length; i ++ ){
+                if(title.toCharArray()[i]== rightLetters.charAt(0)) {
+                    hiddenT[i]  = rightLetters.charAt(0);
+                }
+            }
+            return hiddenT;
         }
     }
 
@@ -58,6 +61,7 @@ public class Game {
 
 
     public void guessLetter() {
+
         Scanner scanner = new Scanner(System.in);
         String guess = scanner.nextLine();
 
